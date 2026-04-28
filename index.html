@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedCare Clinic | عيادة ميدكير</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #2A7FFF;
+    --primary-dark: #1a5fd4;
+    --primary-light: #e8f1ff;
+    --secondary: #0a1628;
+    --accent: #00c6a7;
+    --white: #ffffff;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-400: #94a3b8;
+    --gray-600: #475569;
+    --gray-800: #1e293b;
+    --font-ar: 'Cairo', sans-serif;
+    --font-en: 'Poppins', sans-serif;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 24px rgba(42,127,255,0.10), 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-lg: 0 20px 60px rgba(42,127,255,0.15);
+    --radius: 16px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-ar);
+    background: var(--white);
+    color: var(--gray-800);
+    overflow-x: hidden;
+  }
+
+  /* ===== PAGES ===== */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ===== NAVBAR ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 0 5%;
+    height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: var(--shadow-md); }
+
+  .nav-logo {
+    font-family: var(--font-en);
+    font-size: 1.5rem; font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+    cursor: pointer;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 8px;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none; color: var(--gray-600);
+    font-size: 0.92rem; font-weight: 500;
+    padding: 8px 16px; border-radius: 8px;
+    transition: all 0.2s; cursor: pointer;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--primary); background: var(--primary-light); }
+
+  .nav-cta {
+    background: var(--primary) !important;
+    color: white !important;
+    border-radius: 10px !important;
+    padding: 10px 22px !important;
+    font-weight: 600 !important;
+  }
+  .nav-cta:hover { background: var(--primary-dark) !important; }
+
+  /* ===== HOME PAGE ===== */
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a1628 0%, #1a3a6e 50%, #2A7FFF 100%);
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    padding: 100px 5% 60px;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px); opacity: 0.2;
+  }
+  .hero-orb-1 { width: 600px; height: 600px; background: var(--primary); top: -200px; right: -100px; }
+  .hero-orb-2 { width: 400px; height: 400px; background: var(--accent); bottom: -150px; left: 10%; }
+
+  .hero-content { position: relative; z-index: 1; max-width: 650px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: white; padding: 8px 18px; border-radius: 100px;
+    font-size: 0.85rem; font-weight: 500; margin-bottom: 28px;
+    backdrop-filter: blur(10px);
+  }
+  .hero-badge-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 900; color: white;
+    line-height: 1.15; margin-bottom: 20px;
+    letter-spacing: -1px;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p {
+    font-size: 1.1rem; color: rgba(255,255,255,0.75);
+    line-height: 1.8; margin-bottom: 40px; max-width: 500px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: #0a1628;
+    padding: 16px 36px; border-radius: 12px;
+    font-weight: 700; font-size: 1rem;
+    border: none; cursor: pointer;
+    transition: all 0.3s; font-family: var(--font-ar);
+    box-shadow: 0 8px 30px rgba(0,198,167,0.4);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,198,167,0.5); }
+  .btn-outline {
+    background: transparent; color: white;
+    padding: 16px 36px; border-radius: 12px;
+    font-weight: 600; font-size: 1rem;
+    border: 2px solid rgba(255,255,255,0.4); cursor: pointer;
+    transition: all 0.3s; font-family: var(--font-ar);
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: white; }
+
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 60px;
+    padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .hero-stat-num {
+    font-family: var(--font-en); font-size: 2rem; font-weight: 800;
+    color: white; display: block;
+  }
+  .hero-stat-label { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+
+  /* Section Layout */
+  section { padding: 100px 5%; }
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--primary); font-weight: 600; font-size: 0.88rem;
+    letter-spacing: 0.5px; margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .section-tag::before { content: ''; width: 20px; height: 2px; background: var(--primary); }
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800; color: var(--gray-800);
+    line-height: 1.2; margin-bottom: 16px;
+  }
+  .section-subtitle { color: var(--gray-600); font-size: 1.05rem; line-height: 1.8; max-width: 600px; }
+
+  /* About Section */
+  .about { background: var(--gray-50); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-visual {
+    background: linear-gradient(135deg, var(--primary-light), #dbeafe);
+    border-radius: 24px; padding: 60px 40px;
+    display: flex; flex-direction: column; gap: 24px;
+    position: relative; overflow: hidden;
+  }
+  .about-visual::before {
+    content: '+'; font-size: 200px; font-weight: 900;
+    color: var(--primary); opacity: 0.05;
+    position: absolute; top: -40px; right: -20px;
+    font-family: var(--font-en); line-height: 1;
+  }
+  .feat-item { display: flex; align-items: center; gap: 16px; }
+  .feat-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: var(--white); display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; box-shadow: var(--shadow-sm); flex-shrink: 0;
+  }
+  .feat-text h4 { font-weight: 700; color: var(--gray-800); margin-bottom: 4px; }
+  .feat-text p { font-size: 0.88rem; color: var(--gray-600); line-height: 1.6; }
+
+  /* Doctors Preview */
+  .doctors-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px; margin-top: 60px;
+  }
+  .doctor-card {
+    background: white; border-radius: var(--radius);
+    padding: 32px 24px; text-align: center;
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s; cursor: pointer;
+    position: relative; overflow: hidden;
+  }
+  .doctor-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent));
+    transform: scaleX(0); transition: transform 0.3s;
+  }
+  .doctor-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: transparent; }
+  .doctor-card:hover::before { transform: scaleX(1); }
+
+  .doctor-avatar {
+    width: 90px; height: 90px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-light), #bfdbfe);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.2rem; margin: 0 auto 20px;
+    border: 3px solid var(--gray-100);
+  }
+  .doctor-name { font-weight: 700; font-size: 1rem; color: var(--gray-800); margin-bottom: 6px; }
+  .doctor-spec {
+    color: var(--primary); font-size: 0.82rem; font-weight: 600;
+    background: var(--primary-light); padding: 4px 12px; border-radius: 100px;
+    display: inline-block; margin-bottom: 20px;
+  }
+  .btn-card {
+    width: 100%; padding: 10px; border-radius: 10px;
+    background: var(--gray-50); border: 1px solid var(--gray-200);
+    color: var(--primary); font-weight: 600; font-size: 0.88rem;
+    cursor: pointer; transition: all 0.2s; font-family: var(--font-ar);
+  }
+  .btn-card:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+  /* Footer */
+  footer {
+    background: var(--secondary);
+    color: rgba(255,255,255,0.75);
+    padding: 80px 5% 40px;
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+  .footer-brand-name {
+    font-family: var(--font-en); font-size: 1.4rem; font-weight: 800;
+    color: white; margin-bottom: 16px; display: block;
+  }
+  .footer-brand-name span { color: var(--accent); }
+  footer p { font-size: 0.9rem; line-height: 1.8; margin-bottom: 24px; }
+  .social-links { display: flex; gap: 12px; }
+  .social-btn {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; cursor: pointer; transition: all 0.2s;
+    text-decoration: none; color: white;
+  }
+  .social-btn:hover { background: var(--primary); border-color: var(--primary); }
+  .footer-heading { color: white; font-weight: 700; margin-bottom: 20px; font-size: 0.95rem; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 10px; }
+  .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; cursor: pointer; }
+  .footer-links a:hover { color: white; }
+  .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin-bottom: 30px; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+
+  /* ===== DOCTORS PAGE ===== */
+  .page-hero {
+    background: linear-gradient(135deg, var(--secondary) 0%, #1a3a6e 100%);
+    padding: 140px 5% 80px; color: white;
+  }
+  .page-hero h1 { font-size: 2.8rem; font-weight: 900; margin-bottom: 12px; }
+  .page-hero p { color: rgba(255,255,255,0.7); font-size: 1.1rem; }
+
+  .doctors-full { padding: 80px 5%; }
+  .doctors-full-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 28px; }
+  .doctor-full-card {
+    background: white; border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    overflow: hidden; transition: all 0.3s;
+  }
+  .doctor-full-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: transparent; }
+  .doctor-full-header {
+    background: linear-gradient(135deg, var(--primary-light), #dbeafe);
+    padding: 32px; text-align: center;
+  }
+  .doctor-full-avatar {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: white; display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; margin: 0 auto 16px;
+    box-shadow: var(--shadow-md);
+  }
+  .doctor-full-name { font-weight: 800; font-size: 1.1rem; color: var(--gray-800); margin-bottom: 6px; }
+  .doctor-full-spec {
+    color: var(--primary); font-size: 0.82rem; font-weight: 600;
+    background: white; padding: 4px 14px; border-radius: 100px;
+    display: inline-block;
+  }
+  .doctor-full-body { padding: 24px; }
+  .doctor-info-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .doctor-info-icon { color: var(--primary); font-size: 1rem; }
+  .doctor-info-text { font-size: 0.88rem; color: var(--gray-600); }
+  .btn-book {
+    width: 100%; padding: 12px; border-radius: 10px;
+    background: var(--primary); border: none;
+    color: white; font-weight: 700; font-size: 0.92rem;
+    cursor: pointer; transition: all 0.2s; font-family: var(--font-ar);
+    margin-top: 8px;
+  }
+  .btn-book:hover { background: var(--primary-dark); }
+
+  /* ===== BOOKING PAGE ===== */
+  .booking-section { padding: 40px 5% 80px; }
+  .booking-container { max-width: 700px; margin: 0 auto; }
+  .booking-form {
+    background: white; border-radius: 24px;
+    border: 1px solid var(--gray-200);
+    padding: 48px; box-shadow: var(--shadow-md);
+  }
+  .form-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; color: var(--gray-800); }
+  .form-subtitle { color: var(--gray-600); font-size: 0.92rem; margin-bottom: 36px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-label { font-size: 0.88rem; font-weight: 600; color: var(--gray-800); }
+  .form-input, .form-select {
+    padding: 13px 16px; border-radius: 10px;
+    border: 1.5px solid var(--gray-200);
+    font-size: 0.95rem; color: var(--gray-800);
+    font-family: var(--font-ar); outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: var(--gray-50);
+  }
+  .form-input:focus, .form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(42,127,255,0.12);
+    background: white;
+  }
+  .btn-submit {
+    width: 100%; padding: 16px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none; color: white; font-weight: 700;
+    font-size: 1.05rem; cursor: pointer;
+    transition: all 0.3s; font-family: var(--font-ar);
+    margin-top: 8px;
+    box-shadow: 0 8px 24px rgba(42,127,255,0.3);
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(42,127,255,0.4); }
+
+  .success-alert {
+    display: none; background: #f0fdf4;
+    border: 1.5px solid #86efac; border-radius: 14px;
+    padding: 24px; text-align: center; margin-top: 24px;
+  }
+  .success-alert.show { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  .success-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .success-title { font-weight: 700; color: #166534; font-size: 1.1rem; }
+  .success-text { color: #16a34a; font-size: 0.9rem; margin-top: 6px; }
+
+  /* ===== AUTH PAGES ===== */
+  .auth-page {
+    min-height: 100vh; padding-top: 72px;
+    background: linear-gradient(135deg, var(--gray-50) 0%, var(--primary-light) 100%);
+    display: flex; align-items: center; justify-content: center; padding: 100px 5% 60px;
+  }
+  .auth-card {
+    background: white; border-radius: 24px;
+    padding: 52px 48px; width: 100%; max-width: 480px;
+    box-shadow: var(--shadow-lg); border: 1px solid var(--gray-200);
+  }
+  .auth-logo {
+    font-family: var(--font-en); font-size: 1.5rem; font-weight: 800;
+    color: var(--primary); text-align: center; margin-bottom: 8px;
+  }
+  .auth-logo span { color: var(--accent); }
+  .auth-title { font-size: 1.6rem; font-weight: 800; text-align: center; margin-bottom: 8px; color: var(--gray-800); }
+  .auth-sub { color: var(--gray-600); text-align: center; font-size: 0.9rem; margin-bottom: 36px; }
+  .auth-footer-text { text-align: center; font-size: 0.88rem; color: var(--gray-600); margin-top: 24px; }
+  .auth-footer-text a { color: var(--primary); font-weight: 600; cursor: pointer; text-decoration: none; }
+  .auth-footer-text a:hover { text-decoration: underline; }
+  .divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
+  .divider hr { flex: 1; border: none; border-top: 1px solid var(--gray-200); }
+  .divider span { color: var(--gray-400); font-size: 0.82rem; }
+
+  /* ===== CONTACT PAGE ===== */
+  .contact-section { padding: 40px 5% 80px; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; max-width: 1000px; margin: 0 auto; align-items: start; }
+  .contact-info-card {
+    background: linear-gradient(135deg, var(--secondary), #1a3a6e);
+    border-radius: 24px; padding: 48px; color: white;
+  }
+  .contact-info-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+  .contact-info-sub { color: rgba(255,255,255,0.65); font-size: 0.9rem; margin-bottom: 36px; line-height: 1.8; }
+  .contact-item { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+  .contact-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .contact-item-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
+  .contact-item-value { color: rgba(255,255,255,0.7); font-size: 0.85rem; }
+  .contact-form-card {
+    background: white; border-radius: 24px;
+    padding: 48px; border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .about-grid, .footer-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .auth-card { padding: 36px 28px; }
+    .booking-form { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo" onclick="showPage('home')">Med<span>Care</span></div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active" id="nav-home">الرئيسية</a></li>
+    <li><a onclick="showPage('doctors')" id="nav-doctors">الأطباء</a></li>
+    <li><a onclick="showPage('booking')" id="nav-booking">الحجز</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">تواصل معنا</a></li>
+    <li><a onclick="showPage('login')" class="nav-cta" id="nav-login">تسجيل الدخول</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HOME PAGE ===== -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        متاح للحجز الآن • Available for Booking
+      </div>
+      <h1>Your Health<br><em>Comes First</em></h1>
+      <p>نقدم لك رعاية طبية متكاملة بأعلى معايير الجودة مع نخبة من أفضل الأطباء المتخصصين في مجالاتهم.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('booking')">📅 احجز موعدك الآن</button>
+        <button class="btn-outline" onclick="showPage('doctors')">تعرف على أطبائنا</button>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <span class="hero-stat-num">5+</span>
+          <span class="hero-stat-label">أطباء متخصصين</span>
+        </div>
+        <div>
+          <span class="hero-stat-num">2K+</span>
+          <span class="hero-stat-label">مريض سنوياً</span>
+        </div>
+        <div>
+          <span class="hero-stat-num">10+</span>
+          <span class="hero-stat-label">سنوات خبرة</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About -->
+  <section class="about">
+    <div class="about-grid">
+      <div>
+        <div class="section-tag">من نحن</div>
+        <h2 class="section-title">عيادة متخصصة بأعلى معايير الرعاية</h2>
+        <p class="section-subtitle">تأسست عيادة ميدكير بهدف تقديم خدمات طبية متميزة ومتكاملة لجميع أفراد الأسرة، مع الالتزام بأحدث الأساليب العلاجية وأعلى درجات الاحترافية والإنسانية.</p>
+        <br>
+        <p class="section-subtitle">نؤمن بأن كل مريض يستحق رعاية خاصة وشخصية، لذلك وضعنا راحتك وصحتك في مقدمة أولوياتنا.</p>
+      </div>
+      <div class="about-visual">
+        <div class="feat-item">
+          <div class="feat-icon">🏆</div>
+          <div class="feat-text">
+            <h4>خبرة طويلة</h4>
+            <p>أكثر من 10 سنوات في تقديم أفضل الخدمات الطبية</p>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon">✅</div>
+          <div class="feat-text">
+            <h4>جودة عالية</h4>
+            <p>معتمدون بأعلى معايير الجودة في الرعاية الصحية</p>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon">❤️</div>
+          <div class="feat-text">
+            <h4>رعاية إنسانية</h4>
+            <p>نهتم بكل مريض اهتماماً شخصياً ومتكاملاً</p>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon">⚡</div>
+          <div class="feat-text">
+            <h4>سرعة الاستجابة</h4>
+            <p>حجز فوري وأوقات انتظار قصيرة لراحتك</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Doctors Preview -->
+  <section>
+    <div style="text-align:center; margin-bottom:16px;">
+      <div class="section-tag" style="justify-content:center">فريقنا الطبي</div>
+    </div>
+    <h2 class="section-title" style="text-align:center">تعرف على أطبائنا</h2>
+    <p class="section-subtitle" style="text-align:center; margin:0 auto 60px">نخبة من أفضل الأطباء المتخصصين لخدمتك</p>
+    <div class="doctors-grid" id="home-doctors-grid"></div>
+    <div style="text-align:center; margin-top:48px;">
+      <button class="btn-primary" onclick="showPage('doctors')">عرض جميع الأطباء</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <span class="footer-brand-name">Med<span>Care</span></span>
+        <p>نقدم رعاية طبية متكاملة بأعلى معايير الجودة. صحتك هي أولويتنا الأولى.</p>
+        <div class="social-links">
+          <a class="social-btn">📘</a>
+          <a class="social-btn">📸</a>
+          <a class="social-btn">🐦</a>
+          <a class="social-btn">💼</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">روابط سريعة</div>
+        <ul class="footer-links">
+          <li><a onclick="showPage('home')">الرئيسية</a></li>
+          <li><a onclick="showPage('doctors')">أطباؤنا</a></li>
+          <li><a onclick="showPage('booking')">احجز موعد</a></li>
+          <li><a onclick="showPage('contact')">تواصل معنا</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">التخصصات</div>
+        <ul class="footer-links">
+          <li><a>طب الأسرة</a></li>
+          <li><a>أمراض القلب</a></li>
+          <li><a>طب الأطفال</a></li>
+          <li><a>طب العيون</a></li>
+          <li><a>الأمراض الجلدية</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">تواصل معنا</div>
+        <ul class="footer-links">
+          <li><a>📞 +20 123 456 789</a></li>
+          <li><a>✉️ info@medcare.com</a></li>
+          <li><a>📍 القاهرة، مصر</a></li>
+          <li><a>🕐 9ص - 9م</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">
+      <span>© 2025 MedCare Clinic. جميع الحقوق محفوظة.</span>
+      <span>مصمم بـ ❤️ لصحة أفضل</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== DOCTORS PAGE ===== -->
+<div id="page-doctors" class="page">
+  <div class="page-hero">
+    <div class="section-tag" style="color:rgba(255,255,255,0.7)">فريقنا الطبي</div>
+    <h1>أطباؤنا المتخصصون</h1>
+    <p>نخبة من الأطباء المؤهلين والمتخصصين في مختلف المجالات الطبية</p>
+  </div>
+  <div class="doctors-full">
+    <div class="doctors-full-grid" id="full-doctors-grid"></div>
+  </div>
+</div>
+
+<!-- ===== BOOKING PAGE ===== -->
+<div id="page-booking" class="page">
+  <div class="page-hero">
+    <div class="section-tag" style="color:rgba(255,255,255,0.7)">احجز الآن</div>
+    <h1>حجز موعد طبي</h1>
+    <p>احجز موعدك بسهولة وسنتصل بك للتأكيد</p>
+  </div>
+  <div class="booking-section">
+    <div class="booking-container">
+      <div class="booking-form">
+        <h2 class="form-title">بيانات الحجز</h2>
+        <p class="form-subtitle">يرجى ملء البيانات التالية لإتمام الحجز</p>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">الاسم الكامل *</label>
+            <input type="text" class="form-input" placeholder="أدخل اسمك الكامل" id="b-name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">البريد الإلكتروني *</label>
+            <input type="email" class="form-input" placeholder="example@email.com" id="b-email">
+          </div>
+          <div class="form-group">
+            <label class="form-label">رقم الهاتف *</label>
+            <input type="tel" class="form-input" placeholder="01xxxxxxxxx" id="b-phone">
+          </div>
+          <div class="form-group">
+            <label class="form-label">اختر الطبيب *</label>
+            <select class="form-select" id="b-doctor">
+              <option value="">-- اختر الطبيب --</option>
+              <option>د. أحمد محمد - طب الأسرة</option>
+              <option>د. سارة علي - أمراض القلب</option>
+              <option>د. محمد حسن - طب الأطفال</option>
+              <option>د. فاطمة إبراهيم - طب العيون</option>
+              <option>د. عمر خالد - الأمراض الجلدية</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">تاريخ الموعد *</label>
+            <input type="date" class="form-input" id="b-date">
+          </div>
+          <div class="form-group">
+            <label class="form-label">وقت الموعد *</label>
+            <select class="form-select" id="b-time">
+              <option value="">-- اختر الوقت --</option>
+              <option>09:00 ص</option>
+              <option>10:00 ص</option>
+              <option>11:00 ص</option>
+              <option>12:00 م</option>
+              <option>01:00 م</option>
+              <option>03:00 م</option>
+              <option>04:00 م</option>
+              <option>05:00 م</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-submit" onclick="submitBooking()">تأكيد الحجز 📅</button>
+        <div class="success-alert" id="success-alert">
+          <div class="success-icon">✅</div>
+          <div class="success-title">تم تأكيد الحجز بنجاح!</div>
+          <div class="success-text">سنتصل بك قريباً على رقم هاتفك لتأكيد الموعد</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONTACT PAGE ===== -->
+<div id="page-contact" class="page">
+  <div class="page-hero">
+    <div class="section-tag" style="color:rgba(255,255,255,0.7)">تواصل معنا</div>
+    <h1>نحن هنا لمساعدتك</h1>
+    <p>تواصل معنا في أي وقت، فريقنا جاهز للرد على استفساراتك</p>
+  </div>
+  <div class="contact-section">
+    <div class="contact-grid">
+      <div class="contact-info-card">
+        <div class="contact-info-title">معلومات التواصل</div>
+        <p class="contact-info-sub">يسعدنا التواصل معك والإجابة على جميع استفساراتك.</p>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-item-title">الهاتف</div>
+            <div class="contact-item-value"> ف سطر 673 شوف هتحط ايه<br>نفش الوضع</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-item-title">البريد الإلكتروني</div>
+            <div class="contact-item-value">نفس الوضع بس فسطر 680<br> نفس الوضع</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-item-title">العنوان</div>
+            <div class="contact-item-value">القاهرة، مصر<br>شارع التحرير، المبنى رقم 15</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <div class="contact-item-title">ساعات العمل</div>
+            <div class="contact-item-value">السبت - الخميس<br>9:00 ص - 9:00 م</div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form-card">
+        <h3 style="font-size:1.4rem;font-weight:800;margin-bottom:8px;">أرسل رسالة</h3>
+        <p style="color:var(--gray-600);font-size:0.9rem;margin-bottom:28px;">سنرد عليك في أقرب وقت ممكن</p>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="form-group">
+            <label class="form-label">الاسم</label>
+            <input type="text" class="form-input" placeholder="اسمك الكامل">
+          </div>
+          <div class="form-group">
+            <label class="form-label">البريد الإلكتروني</label>
+            <input type="email" class="form-input" placeholder="بريدك الإلكتروني">
+          </div>
+          <div class="form-group">
+            <label class="form-label">الموضوع</label>
+            <input type="text" class="form-input" placeholder="موضوع رسالتك">
+          </div>
+          <div class="form-group">
+            <label class="form-label">الرسالة</label>
+            <textarea class="form-input" rows="4" placeholder="اكتب رسالتك هنا..." style="resize:vertical;"></textarea>
+          </div>
+          <button class="btn-submit" onclick="this.textContent='✅ تم الإرسال!';this.style.background='#16a34a'">إرسال الرسالة</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LOGIN PAGE ===== -->
+<div id="page-login" class="page">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">Med<span>Care</span></div>
+      <h2 class="auth-title">مرحباً بعودتك</h2>
+      <p class="auth-sub">سجّل دخولك للوصول إلى حسابك</p>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="form-group">
+          <label class="form-label">البريد الإلكتروني</label>
+          <input type="email" class="form-input" placeholder="example@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">كلمة المرور</label>
+          <input type="password" class="form-input" placeholder="••••••••">
+        </div>
+        <button class="btn-submit">تسجيل الدخول</button>
+      </div>
+      <div class="divider"><hr><span>أو</span><hr></div>
+      <p class="auth-footer-text">ليس لديك حساب؟ <a onclick="showPage('register')">إنشاء حساب جديد</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REGISTER PAGE ===== -->
+<div id="page-register" class="page">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">Med<span>Care</span></div>
+      <h2 class="auth-title">إنشاء حساب جديد</h2>
+      <p class="auth-sub">انضم إلينا واستمتع بخدماتنا الطبية</p>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="form-group">
+          <label class="form-label">الاسم الكامل</label>
+          <input type="text" class="form-input" placeholder="أدخل اسمك الكامل">
+        </div>
+        <div class="form-group">
+          <label class="form-label">البريد الإلكتروني</label>
+          <input type="email" class="form-input" placeholder="example@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">كلمة المرور</label>
+          <input type="password" class="form-input" placeholder="••••••••">
+        </div>
+        <div class="form-group">
+          <label class="form-label">تأكيد كلمة المرور</label>
+          <input type="password" class="form-input" placeholder="••••••••">
+        </div>
+        <button class="btn-submit">إنشاء الحساب</button>
+      </div>
+      <p class="auth-footer-text" style="margin-top:20px;">لديك حساب بالفعل؟ <a onclick="showPage('login')">تسجيل الدخول</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+const doctors = [
+  { name: 'د. أحمد محمد', spec: 'طب الأسرة', emoji: '👨‍⚕️', exp: '12 سنة خبرة', days: 'السبت - الأربعاء', hours: '9ص - 3م' },
+  { name: 'د. سارة علي', spec: 'أمراض القلب', emoji: '👩‍⚕️', exp: '15 سنة خبرة', days: 'الأحد - الخميس', hours: '10ص - 5م' },
+  { name: 'د. محمد حسن', spec: 'طب الأطفال', emoji: '👨‍⚕️', exp: '8 سنوات خبرة', days: 'السبت - الثلاثاء', hours: '9ص - 2م' },
+  { name: 'د. فاطمة إبراهيم', spec: 'طب العيون', emoji: '👩‍⚕️', exp: '10 سنوات خبرة', days: 'الاثنين - الجمعة', hours: '11ص - 7م' },
+  { name: 'د. عمر خالد', spec: 'الأمراض الجلدية', emoji: '👨‍⚕️', exp: '9 سنوات خبرة', days: 'الأحد - الأربعاء', hours: '2م - 9م' },
+];
+
+// Render home doctors
+const homeGrid = document.getElementById('home-doctors-grid');
+doctors.forEach(d => {
+  homeGrid.innerHTML += `
+    <div class="doctor-card">
+      <div class="doctor-avatar">${d.emoji}</div>
+      <div class="doctor-name">${d.name}</div>
+      <div class="doctor-spec">${d.spec}</div>
+      <button class="btn-card" onclick="showPage('doctors')">عرض الملف الشخصي</button>
+    </div>`;
+});
+
+// Render full doctors
+const fullGrid = document.getElementById('full-doctors-grid');
+doctors.forEach(d => {
+  fullGrid.innerHTML += `
+    <div class="doctor-full-card">
+      <div class="doctor-full-header">
+        <div class="doctor-full-avatar">${d.emoji}</div>
+        <div class="doctor-full-name">${d.name}</div>
+        <div class="doctor-full-spec">${d.spec}</div>
+      </div>
+      <div class="doctor-full-body">
+        <div class="doctor-info-row">
+          <span class="doctor-info-icon">⭐</span>
+          <span class="doctor-info-text">${d.exp}</span>
+        </div>
+        <div class="doctor-info-row">
+          <span class="doctor-info-icon">📅</span>
+          <span class="doctor-info-text">${d.days}</span>
+        </div>
+        <div class="doctor-info-row">
+          <span class="doctor-info-icon">🕐</span>
+          <span class="doctor-info-text">${d.hours}</span>
+        </div>
+        <button class="btn-book" onclick="showPage('booking')">احجز الآن</button>
+      </div>
+    </div>`;
+});
+
+// Navigation
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + page);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// Booking submit
+function submitBooking() {
+  const name = document.getElementById('b-name').value;
+  const email = document.getElementById('b-email').value;
+  const phone = document.getElementById('b-phone').value;
+  const doctor = document.getElementById('b-doctor').value;
+  const date = document.getElementById('b-date').value;
+  const time = document.getElementById('b-time').value;
+  if (!name || !email || !phone || !doctor || !date || !time) {
+    alert('يرجى ملء جميع الحقول المطلوبة');
+    return;
+  }
+  document.getElementById('success-alert').classList.add('show');
+  setTimeout(() => {
+    document.getElementById('b-name').value = '';
+    document.getElementById('b-email').value = '';
+    document.getElementById('b-phone').value = '';
+    document.getElementById('b-doctor').value = '';
+    document.getElementById('b-date').value = '';
+    document.getElementById('b-time').value = '';
+  }, 500);
+}
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+</script>
+</body>
+</html>
